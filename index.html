@@ -33,7 +33,6 @@
       min-height:100%;
     }
 
-    /* floating */
     body::before{
       content:"";
       position:fixed;
@@ -73,10 +72,10 @@
 
     .container{max-width:1150px;margin:10px auto;padding:0 18px;position:relative;z-index:5}
 
-    /* auth area (popup panels) */
+    /* modals */
     .modal{
       position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
-      z-index:99999; display:none; width:320px; max-width:92%;
+      z-index:99999; display:none; width:340px; max-width:92%;
       background:linear-gradient(180deg,var(--paper),#fbfeff); padding:14px; border-radius:12px;
       box-shadow:0 18px 60px rgba(8,30,60,0.18);
     }
@@ -103,6 +102,7 @@
     .info-block{background:linear-gradient(180deg,#fff,#fbfeff);padding:14px;border-radius:12px;box-shadow:0 8px 20px rgba(8,30,60,0.04);margin-bottom:12px}
     .info-block h4{margin:0 0 8px 0;color:var(--brand)}
     .info-block p{margin:0;color:var(--muted);line-height:1.5}
+    .fb-link{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,#e8f5ff,#f2fbff);border:1px solid rgba(10,116,218,0.08);color:var(--brand);text-decoration:none;font-weight:700}
 
     /* services */
     h2.section-title{text-align:center;color:var(--brand);margin-top:28px}
@@ -130,11 +130,12 @@
     .message.user{background:#e8faff}
     .message.admin{background:var(--brand);color:white}
 
-    /* about + contact */
-    .about{margin-top:18px;background:linear-gradient(180deg,#fff,#fbfeff);padding:14px;border-radius:12px;box-shadow:0 8px 20px rgba(8,30,60,0.04)}
-    .about h3{margin:0 0 6px 0;color:var(--brand)}
-    .about p{margin:6px 0;color:var(--muted);line-height:1.6}
-    .fb-link{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,#e8f5ff,#f2fbff);border:1px solid rgba(10,116,218,0.08);color:var(--brand);text-decoration:none;font-weight:700}
+    /* contact section */
+    .contact-section{margin-top:24px}
+    .contact-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .contact-card{flex:1 1 260px;max-width:360px;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid #e6f0ff;border-radius:12px;box-shadow:0 8px 20px rgba(8,30,60,0.05);padding:14px;text-align:center}
+    .contact-card a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--brand);font-weight:800}
+    .contact-card i{font-size:22px}
 
     /* responsiveness */
     @media (max-width:900px){
@@ -156,13 +157,15 @@
       </div>
       <div>
         <h1>TechnoSolution</h1>
-        <p>ტехнологიები, რომლებსაც შეგიძლია ენდო</p>
+        <!-- გასწორებული ორთოგრაფია -->
+        <p>ტექნოლოგიები, რომლებსაც შეგიძლია ენდო</p>
       </div>
     </div>
 
     <nav>
       <button class="nav-btn" id="btn-login">შესვლა</button>
       <button class="nav-btn" id="btn-register">რეგისტრაცია</button>
+      <button class="nav-btn" id="btn-contactModal" title="კონტაქტი">კონტაქტი</button>
       <button class="primary-btn" id="btn-contact" title="Message" onclick="toggleChat()"><i class="fa-solid fa-comment"></i>&nbsp;Message</button>
     </nav>
   </header>
@@ -174,7 +177,6 @@
     <input id="login-name" placeholder="სახელი" />
     <input id="login-pass" type="password" placeholder="პაროლი" />
     <button class="submit-btn" onclick="loginUser()">შესვლა</button>
-    <div class="small" style="margin-top:8px">ადმინი: GoldenIT (პაროლი შენს მიერ შემოთავაზებული)</div>
   </div>
 
   <div class="modal" id="modal-register" role="dialog" aria-modal="true">
@@ -184,6 +186,29 @@
     <input id="reg-pass" type="password" placeholder="პაროლი" />
     <button class="submit-btn" onclick="registerUser()">რეგისტრაცია</button>
     <div class="small" style="margin-top:8px">რეგისტრაციის შემდეგ შეძლებთ შეფასების და მესიჯის გაგზავნას.</div>
+  </div>
+
+  <!-- Contact modal -->
+  <div class="modal" id="modal-contact" role="dialog" aria-modal="true">
+    <button class="close" onclick="closeModal('modal-contact')">&times;</button>
+    <h3>კონტაქტი</h3>
+    <div class="info-block" style="margin:0">
+      <p style="display:flex;align-items:center;gap:10px;margin:6px 0">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        <a href="https://wa.me/995511569180" target="_blank" rel="noopener">WhatsApp: 511 56 91 80</a>
+      </p>
+      <p style="display:flex;align-items:center;gap:10px;margin:6px 0">
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        <a href="mailto:giorgitumanishvili69@gmail.com?subject=TechnoSolution%20Contact" target="_blank" rel="noopener">
+          giorgitumanishvili69@gmail.com
+        </a>
+      </p>
+      <p style="display:flex;align-items:center;gap:10px;margin:6px 0">
+        <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+        <a href="https://www.google.com/maps/place/IT+support/data=!4m7!3m6!1s0x40440dd1b8cb9f91:0xb320ca4c81e41645!8m2!3d41.6958568!4d44.8210704!16s%2Fg%2F11xs_k3kt7!19sChIJkZ_LuNENREARRRbkgUzKILM?authuser=0&hl=ka&rclk=1"
+           target="_blank" rel="noopener">ლოკაცია — გახსნა რუკაზე</a>
+      </p>
+    </div>
   </div>
 
   <div class="container">
@@ -221,6 +246,18 @@
         <div class="info-block">
           <h4>რამდენად საჭიროა დღეს ანტივირუსები?</h4>
           <p>ანტივირუსები იცავს თქვენს მონაცემებს, აღკვეთს საფრთხეებს და უზრუნველყოფს უსაფრთხო ონლაინ მუშაობას. ისინი აუცილებელია როგორც კომპანიებისთვის, ისე პირადი მომხმარებლებისთვის.</p>
+        </div>
+
+        <!-- NEW: ლოკაციის ბლოკი -->
+        <div class="info-block">
+          <h4><i class="fa-solid fa-location-dot"></i> ლოკაცია</h4>
+          <p>ჩვენი მისამართი რუკაზე — დააჭირეთ ბმულს:</p>
+          <p style="margin-top:8px">
+            <a class="fb-link" href="https://www.google.com/maps/place/IT+support/data=!4m7!3m6!1s0x40440dd1b8cb9f91:0xb320ca4c81e41645!8m2!3d41.6958568!4d44.8210704!16s%2Fg%2F11xs_k3kt7!19sChIJkZ_LuNENREARRRbkgUzKILM?authuser=0&hl=ka&rclk=1"
+               target="_blank" rel="noopener">
+              გახსნა Google Maps-ში <i class="fa-solid fa-map-location-dot"></i>
+            </a>
+          </p>
         </div>
       </div>
     </div>
@@ -277,6 +314,29 @@
       </div>
     </div>
 
+    <!-- CONTACT SECTION (სხვა სექცია, როგორც ითხოვე) -->
+    <div class="contact-section">
+      <h2 class="section-title">კონტაქტი</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <a href="https://wa.me/995511569180" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp: 511 56 91 80
+          </a>
+        </div>
+        <div class="contact-card">
+          <a href="mailto:giorgitumanishvili69@gmail.com?subject=TechnoSolution%20Contact" target="_blank" rel="noopener">
+            <i class="fa-solid fa-envelope"></i> giorgitumanishvili69@gmail.com
+          </a>
+        </div>
+        <div class="contact-card">
+          <a href="https://www.google.com/maps/place/IT+support/data=!4m7!3m6!1s0x40440dd1b8cb9f91:0xb320ca4c81e41645!8m2!3d41.6958568!4d44.8210704!16s%2Fg%2F11xs_k3kt7!19sChIJkZ_LuNENREARRRbkgUzKILM?authuser=0&hl=ka&rclk=1"
+             target="_blank" rel="noopener">
+            <i class="fa-solid fa-map-location-dot"></i> ნახე რუკაზე
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div style="height:40px"></div>
   </div>
 
@@ -302,7 +362,7 @@
        Auth + storage + helpers
        ============================ */
     const ADMIN_USER = 'GoldenIT';
-    // SHA-256("GoldenEye14*")  (you provided this password)
+    /* SHA-256 hash of the admin password (არ იძახებს პაროლს UI-ში) */
     const ADMIN_PASS_HASH = '8a6642a654b9f1a233d97331885e96ebd5f443ec86df8398424e014153720cbe';
 
     let currentUser = JSON.parse(sessionStorage.getItem('currentUser') || 'null');
@@ -319,6 +379,7 @@
     /* UI: open/close modals */
     document.getElementById('btn-login').addEventListener('click', ()=> openModal('modal-login'));
     document.getElementById('btn-register').addEventListener('click', ()=> openModal('modal-register'));
+    document.getElementById('btn-contactModal').addEventListener('click', ()=> openModal('modal-contact'));
     function openModal(id){ document.getElementById(id).style.display='block'; }
     function closeModal(id){ document.getElementById(id).style.display='none'; }
 
@@ -372,10 +433,6 @@
     /* Nav render */
     function renderNav(){
       const nav = document.querySelector('nav');
-      // show name + logout only inside header area update (we already have buttons there)
-      // We'll update the login/register visibility
-      // Already separate buttons exist; we can show user greeting after them
-      // Remove previous greeting if exists
       const old = document.getElementById('user-greet');
       if(old) old.remove();
       if(currentUser){
@@ -386,7 +443,6 @@
         span.style.fontWeight='700';
         span.textContent = `მოგესალმებით, ${currentUser.name}` + (currentUser.admin ? ' (Admin)' : '');
         nav.appendChild(span);
-        // replace login/register with small logout? we keep separate but user can still logout
         const outBtn = document.createElement('button');
         outBtn.className='nav-btn';
         outBtn.textContent='გასვლა';
@@ -510,7 +566,7 @@
       document.getElementById('reviewtext').disabled = !canWrite;
       document.getElementById('reviewtext').placeholder = canWrite ? 'თქვენი შეფასება' : 'თქვენი შეფასება (საჭიროა ავტორიზაცია)';
       document.getElementById('review-hint').style.display = canWrite ? 'none' : 'block';
-      // Chat send button: keep enabled but enforce on send
+      // Chat send button enforced in sendMessage()
       renderNav();
       renderReviews();
       renderChat();
@@ -521,16 +577,22 @@
       renderNav();
       initPriceButtons();
       applyAuthState();
-      // Ensure modals close on ESC
-      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeModal('modal-login'); closeModal('modal-register'); }});
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeModal('modal-login'); closeModal('modal-register'); closeModal('modal-contact'); }});
     });
 
-    // small UX: click outside modal closes it
+    // click outside modal closes it (header btn-ების გამოკლებით)
     window.addEventListener('click', function(e){
-      ['modal-login','modal-register'].forEach(id=>{
+      ['modal-login','modal-register','modal-contact'].forEach(id=>{
         const el = document.getElementById(id);
         if(!el) return;
-        if(el.style.display==='block' && !el.contains(e.target) && !document.getElementById('btn-login').contains(e.target) && !document.getElementById('btn-register').contains(e.target)){
+        const loginBtn = document.getElementById('btn-login');
+        const regBtn = document.getElementById('btn-register');
+        const contactBtn = document.getElementById('btn-contactModal');
+        if(el.style.display==='block'
+           && !el.contains(e.target)
+           && !loginBtn.contains(e.target)
+           && !regBtn.contains(e.target)
+           && !contactBtn.contains(e.target)){
           el.style.display='none';
         }
       });
